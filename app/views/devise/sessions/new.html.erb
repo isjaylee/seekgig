@@ -1,0 +1,52 @@
+<div class="body-content clearfix">
+  <div class="block-section bg-color4">
+    <div class="container">
+      <div class="panel panel-md">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="text-center">Sign in</h1>
+
+              <!-- form login -->
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                <div class="form-group">
+                  <label>Email or Username</label>
+                  <%= f.text_field :login, autofocus: true, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <%= f.password_field :password, autocomplete: "off", class: "form-control", id: "password" %>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <div class="checkbox flat-checkbox">
+                        <% if devise_mapping.rememberable? -%>
+                        <label>
+                          <%= f.check_box :remember_me %>
+                          <span class="fa fa-check"></span>
+                          Remember me?
+                        </label>
+                        <% end -%>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group no-margin">
+                  <button class="btn btn-theme btn-lg btn-t-primary btn-block">Log In</button>
+                </div>
+              <% end %>
+              <div class="text-center">
+                <%= render "devise/shared/links" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="white-space-20"></div>
+      <div class="text-center color-white">Don't have an account? &nbsp; <%= link_to "Create one for free", new_user_registration_path, class: "link-white" %></div>
+    </div>
+  </div>
+
+</div>

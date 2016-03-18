@@ -1,0 +1,7 @@
+<% if current_user.nil? %>
+  <%= link_to "Login to send a message", new_user_session_path, class: "btn btn-line soft btn-theme btn-pill btn-block" %>
+<% elsif current_user != @user %>
+  <a href="#" data-toggle="modal" data-target="#sendMessage" class="btn btn-line soft btn-theme btn-pill btn-block">Send a message</a>
+<% else %>
+  <%= link_to "Go to your profile", dashboard_path, class: "btn btn-line soft  btn-theme btn-pill btn-block" %>
+<% end %>

@@ -1,0 +1,146 @@
+<div id="page-wrapper">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+        <!-- Bootstrap Switch -->
+        <div class="bootstrap-switch-container">
+          <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 33px;"></span>
+          <span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 33px;"></span>
+          <input id="switch-size" name="searchable" type="checkbox" data-size="mini" data-on-text="Yes" data-off-text="No"
+                 <%= current_user.searchable? ? "checked=" : nil %>>
+          Allow your profile to be searchable? <i>Typically want this to be "Yes" so people can find you for their gigs.</i>
+        </div>
+        <br />
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-comments fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge"><%= current_user.conversation_count %></div>
+                <div>Your Conversations</div>
+              </div>
+            </div>
+          </div>
+          <%= link_to user_conversations_path(current_user.uid) do %>
+            <div class="panel-footer">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-user fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">&nbsp;</div>
+                <div>Your Profile</div>
+              </div>
+            </div>
+          </div>
+          <%= link_to user_path(current_user.uid) do %>
+            <div class="panel-footer">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Your Gigs</h3>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Project</th>
+                    <th>Bids</th>
+                    <th>Date Posted</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @gigs.each do |gig| %>
+                    <tr>
+                      <th scope="row"><%= gig.uid %></th>
+                      <td><%= link_to truncate(gig.name, length: 40), gig_path(gig.uid) %></td>
+                      <td><span class="label label-info"><%= link_to gig.bids.count, gig_bids_path(gig.uid), class: "button" %></span></td>
+                      <td><%= gig.created_at.strftime("%B %d, %Y") %></td>
+                      <td><%= gig.status %></td>
+                      <td>
+                        <%= render partial: "users/gig_actions", locals: { gig: gig } %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Your Bids</h3>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Gig Name</th>
+                    <th>Date You bid</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @bids.each do |bid| %>
+                    <tr>
+                      <td><%= link_to bid.gig.name, gig_path(bid.gig.uid) %></td>
+                      <td><%= bid.created_at.strftime("%B %d, %Y") %></td>
+                      <td><%= bid.gig.status %></td>
+                      <td>
+                        <% if !bid.gig.finished? %>
+                          <%= link_to "<i class='fa fa-pencil'></i> Edit".html_safe, edit_gig_bid_path(bid.gig.uid, bid) %>
+                          <%= link_to "<i class='fa fa-remove'></i> Undo Bid".html_safe, gig_bid_path(bid.gig.uid, bid), method: :delete, data: { confirm: "Are you sure?" } %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container-fluid -->
+</div>

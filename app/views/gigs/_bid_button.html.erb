@@ -1,0 +1,9 @@
+<% if current_user == gig.user %>
+  <%= link_to "Manage this gig", gig_bids_path(gig.uid), class: "btn btn-theme btn-t-primary btn-block-xs" %>
+<% elsif user_signed_in? && current_user != gig.user && !gig.bids.where(user_id: current_user.id).exists? %>
+  <a href="#" data-toggle="modal" data-target="#bidButton" class="btn btn-theme btn-t-primary btn-block-xs">Bid on this gig</a>
+<% elsif current_user.present? && gig.bids.where(user_id: current_user.id).exists? %>
+  <div class="btn btn-theme btn-line dark btn-block-xs">You bid on this gig already</div>
+<% else %>
+  <%= link_to "Bid on this Gig", new_gig_bid_path(@gig.uid), class: "btn btn-theme btn-t-primary btn-block-xs" %>
+<% end %>

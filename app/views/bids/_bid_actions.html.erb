@@ -1,0 +1,75 @@
+<% if gig.awarded_bid == bid.id  && !gig.finished? %>
+  <a href="#" data-toggle="modal" data-target="#finishBid" class="btn btn-success btn-sm">Finish Gig</a>
+  <%= link_to "Deselect", deselect_bid_path(gig.uid, bid), method: :post, class: "btn btn-danger btn-sm" %>
+<% elsif gig.awarded_bid == nil && !gig.finished? %>
+  <a href="#" data-toggle="modal" data-target="#selectBid" class="btn btn-primary btn-sm">Select Bid</a>
+<% elsif gig.reviews.present? %>
+  Gig completed!
+<% else %>
+  <a href="#" data-toggle="modal" data-target="#bidButton" class="btn btn-primary btn-sm">Write a Review</a>
+<% end %>
+
+<!-- Modal for bid button -->
+<div class="modal fade" id="bidButton" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are bidding on <%= @gig.name %></h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for [bid.user, Review.new(gig_id: @gig.id)] do |f| %>
+          <%= f.hidden_field :gig_id, value: @gig.id %>
+          <%= f.hidden_field :reviewer, value: current_user.id %>
+          <div class="form-group">
+            <%= f.label :rating, "Rating" %>
+            <%= f.number_field :rating, autofocus: true, value: 1, min: 1, max: 5, class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :comment, "comment" %>
+            <%= f.text_area :comment, rows: 10, class: "form-control" %>
+          </div>
+
+          <div class="divider"></div>
+
+          <%= f.submit class: "btn btn-success btn-theme" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal for bid button -->
+
+<!-- Modal for select bid button -->
+<div class="modal fade" id="selectBid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are going to select bid by <%= bid.user.fullname.titleize %> of <%= number_to_currency(bid.amount) %></h4>
+      </div>
+      <div class="modal-body text-right">
+        <%= link_to "Confirm", select_bid_path(gig.uid, bid), method: :post, class: "btn btn-success btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal for select bid button -->
+
+<!-- Modal for finish bid button -->
+<div class="modal fade" id="finishBid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are going to finish this bid.</h4>
+        <p>After you finish the bid, don't forget to review your bidder!</p>
+      </div>
+      <div class="modal-body text-right">
+        <%= link_to "Finish Gig", gig_finish_path(gig.uid), method: :post, class: "btn btn-success btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal for finish bid button -->

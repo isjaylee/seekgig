@@ -1,0 +1,106 @@
+<div class="main-header">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-10">
+        <%= form_tag search_all_users_path, class: "form-search-list", method: :get do |f| %>
+          <div class="row">
+            <div class="col-lg-4 ">
+              <div class="form-group">
+                <label class="color-white">what <small>(gig keywords, skills, etc.)</small></label>
+                <%= text_field_tag :search, nil, value: params[:search], class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="color-white">where <small>(city, state, zipcode, etc.)</small></label>
+                <%= text_field_tag :location, nil, value: params[:location], class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label class="color-white">minimum rating</label>
+                <%= select_tag :rating, options_for_select([0,1,2,3,4,5], params[:rating]), class: "form-control", style: "width: 100px;" %>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label class="hidden-xs">&nbsp;</label>
+                <%= submit_tag "Find users", class: "btn btn-block btn-theme btn-success" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="body-content clearfix">
+  <div class="bg-color2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+
+          <div class="block-section-sm box-list-area">
+            <div class="row hidden-xs">
+              <div class="col-sm-6 ">
+                <p><strong class="color-black"><%= params[:search] %> users near <%= params[:location] %></strong></p>
+              </div>
+              <div class="col-sm-6">
+                <p class="text-right">Users 1 to <%= @users.count %> of <%= @users.total_count %></p>
+              </div>
+            </div>
+
+            <!-- listing -->
+            <div class="box-list">
+              <% @users.each do |user| %>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h3 class="no-margin-top"><%= link_to user.fullname.titleize, user_path(user.uid) %></h3>
+                      <h5>
+                        <%= user.reviews.count %> Reviews
+                        <span class="rate"><%= render_stars(user.avg_rating) %></span>
+                        <span class="color-white-mute"> <%= user.location %></span>
+                      </h5>
+                      <p><%= user.description %></p>
+                      <span class="color-white-mute">
+                        Last Logged In: <%= user.last_sign_in_at.nil? ? user.created_at.strftime("%b %d, %Y") : user.last_sign_in_at.strftime("%b %d, %Y") %>
+                      </span>
+                      <span class="pull-right"><%= link_to "Go to profile", user_path(user.uid), class: "btn btn-xs btn-theme btn-default" %></span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- pagination -->
+            <%= paginate @users %>
+
+          </div><!-- end  box listing  -->
+        </div>
+
+        <div class="col-md-3">
+          <div class="block-section-sm side-right">
+
+            <!-- filter   -->
+            <div class="row">
+              <div class="col-xs-4">
+                <p><strong>Sort by: </strong></p>
+              </div>
+              <div class="col-xs-8">
+                <p class="text-right">
+                  <strong>Rating</strong> - <a href="#" class="link-black"><strong>Last logged in</strong></a>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

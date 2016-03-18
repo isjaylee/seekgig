@@ -1,0 +1,112 @@
+ <div class="body-content clearfix">
+
+  <!-- link top -->
+  <div class="bg-color2 block-section-xs line-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 hidden-xs">
+          <div>Job details :</div>
+        </div>
+        <div class="col-sm-6">
+          <div class="text-right"><%= link_to "« Go back to job listings", "/gigs/search_all?utf8=✓&search=&location=Minneapolis&button=" %></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end link top -->
+
+  <div class="bg-color2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+
+          <!-- box item details -->
+          <div class="block-section box-item-details">
+
+            <h2 class="title"><%= @gig.name %></h2>
+            <div class="job-meta">
+              <ul class="list-inline">
+                <li><i class="fa fa-user"></i> <%= @gig.user.fullname.titleize %> (<%= @gig.user.username %>)</li>
+                <li><i class="fa fa-map-marker"></i> <%= @gig.location %></li>
+                <li><i class="fa fa-money"></i> <%= number_to_currency(@gig.budget) %></li>
+                <li><i class="fa fa-calendar"></i> Posted on <%= @gig.created_at.strftime("%b %d, %Y") %></li>
+              </ul>
+            </div>
+            <p><%= markdown(@gig.description) %></p>
+            <% if @gig.images.present? %>
+              <% @gig.images.each do |image| %>
+                <%= link_to image_tag(image.image.thumb("190x150").url), root_path %>
+              <% end %>
+            <% end %>
+          </div>
+
+        </div>
+        <div class="col-md-3">
+
+          <!-- box affix right -->
+          <div class="block-section affix" id="affix-box">
+            <div class="text-right">
+              <%= render partial: "gigs/bid_button", locals: { gig: @gig, bid: @bid } %>
+              <br>
+              <br>
+              <%= render partial: "gigs/send_message", locals: { gig: @gig } %>
+            </div>
+          </div><!-- box affix right -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for bid button -->
+<div class="modal fade" id="bidButton" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">You are bidding on <%= @gig.name %></h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for :bid, url: gig_bids_path(@gig.uid, @bid) do |f| %>
+          <div class="form-group">
+            <%= f.label :amount, "<h5>Bid</h5>".html_safe %>
+            <%= f.text_field :amount, placeholder: "Enter your bid", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :description %>
+            <%= f.text_area :description, rows: 10, class: "form-control", placeholder: "Tell the gig owner why they should choose you" %>
+          </div>
+          <div class="divider"></div>
+          <%= f.submit "Submit Bid", class: "btn btn-success btn-theme" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal for bid button -->
+
+<!-- Modal for send message -->
+<% if current_user.present? %>
+  <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Send <%= @gig.user.firstname.capitalize %> a message about this gig</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_for :message, url: user_messages_path(@gig.user.uid), method: :post do |f| %>
+            <%= f.hidden_field :gig_uid, value: @gig.uid %>
+            <%= f.hidden_field :subject, value: "Message from #{current_user.username} about Gig ##{@gig.uid} - #{@gig.name}" %>
+            <h5>Message</h5>
+            <div class="form-group">
+              <%= f.text_area :body, rows: 10, class: "form-control" %>
+            </div>
+            <%= f.submit "Send Message", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<!-- end Modal for send message -->

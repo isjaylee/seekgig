@@ -1,0 +1,52 @@
+<div class="body-content clearfix">
+  <div class="bg-color1">
+    <div class="container">
+      <div class="col-md-3 col-sm-3">
+        <div class="block-section text-center">
+          <div class="white-space-20"></div>
+          <h1 class="label label-default">Messages</h1>
+          <div class="white-space-20"></div>
+          <ul class="list-unstyled">
+          
+          </ul>
+        </div>
+
+        <div class="white-space-20"></div>
+        
+      </div>
+      <div class="col-md-9 col-sm-9">
+        <div class="white-space-20"></div>
+        <div class="block-section box-side-account">
+          <div class="mail-option">
+              <ul class="list-unstyled inbox-pagination">
+                <li><span>1-50 of 99</span></li>
+              </ul>
+            </div>
+            <div class="table-inbox-wrap ">
+              <table class="table table-inbox table-hover">
+                <thead>
+                  <tr>
+                    <td width="200">Last Message</td>
+                    <td width="100">With</td>
+                    <td width="400">Subject</td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @conversations.each do |conversation| %>
+                    <tr onclick="window.document.location='<%= user_conversation_path(current_user.uid, conversation) %>';">
+                      <td><%= conversation.updated_at.strftime("%b %d %Y at %I:%M%P") %></td>
+                      <td><%= with_user(current_user, conversation) %></td>
+                      <td><%= conversation.messages.first.subject %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

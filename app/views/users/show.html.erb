@@ -1,0 +1,89 @@
+<div class="body-content clearfix">
+  <div class="bg-color1">
+    <div class="container">
+      <div class="col-md-3 col-sm-3">
+        <div class="block-section text-center">
+          <div class="white-space-20"></div>
+          <h4>
+            <%= @user.fullname.titleize %>
+            <br>
+            <small>(<%= @user.username %>)</small>
+          </h4>
+          <div class="white-space-20"></div>
+          <ul class="list-unstyled">
+            <li>(<%= @user.avg_rating %>) <%= render_stars(@user.avg_rating) %></li>
+            <li><i class="fa fa-map-marker"></i> <%= @user.location %></li>
+            <li>Last logged in <%= @user.last_sign_in_at.nil? ? @user.created_at.strftime("%b %d %Y") : @user.last_sign_in_at.strftime("%b %d %Y") %></li>
+          </ul>
+        </div>
+        <%= @user.description %>
+        <div class="white-space-20"></div>
+        <%= render partial: "users/send_message" %>
+      </div>
+      <div class="col-md-9 col-sm-9">
+        <div class="white-space-20"></div>
+        <div class="block-section box-side-account">
+          <h3 class="no-margin-top">Reviews</h3>
+          <div class="">
+            <table class="table">
+              <% @user.reviews.each do |review| %>
+                <tbody>
+                  <tr>
+                    <td width="150px;"><%= User.find(review.reviewer).fullname.titleize %></td>
+                    <td><%= markdown(review.comment) %></td>
+                    <td class="text-right" width="100px;"><%= render_stars(review.rating) %></td>
+                  </tr>
+                </tbody>
+              <% end %>
+            </table>
+          </div>
+
+          <!-- <nav>
+            <ul class="pagination pagination-theme  ">
+              <li>
+                <a href="#" aria-label="Previous">
+                <span aria-hidden="true">←</span>
+                </a>
+              </li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li>
+                <a href="#" aria-label="Next">
+                <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            </ul>
+          </nav> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for send message -->
+<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Send <%= @user.firstname.capitalize %> a message</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for :message, url: user_messages_path(@user.uid), method: :post do |f| %>
+          <div class="form-group">
+            <%= f.label :subject %>
+            <%= f.text_field :subject, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :body, "Message" %>
+            <%= f.text_area :body, rows: 10, class: "form-control" %>
+          </div>
+          <%= f.submit "Send Message", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Modal for send message -->

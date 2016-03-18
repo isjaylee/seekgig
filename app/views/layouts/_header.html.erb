@@ -1,0 +1,74 @@
+<header class="">
+  <!-- main navbar -->
+  <nav class="navbar navbar-default main-navbar hidden-sm hidden-xs">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav">
+          <li><%= link_to "Seekgig", root_path %></li>
+          <li><%= link_to "Find a Gig", "/gigs/search_all?utf8=✓&search=&location=Minneapolis&button=" %></li>
+          <li><%= link_to "Find People", search_all_users_path %></li>
+          <li><%= link_to "How it Works", howitworks_path %></li>
+          <li><%= link_to "Create a Gig", new_gig_path %></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li class="link-btn"><%= link_to dashboard_path do %><span class="btn btn-theme btn-pill btn-xs btn-line">Dashboard</span><% end %></li>
+            <li class="link-btn"><%= link_to  edit_user_registration_path do %><span class="btn btn-theme btn-pill btn-xs btn-line">Edit Profile</span><% end %></li>
+            <li class="link-btn"><%= link_to  destroy_user_session_path, method: :delete do %><span class="btn btn-theme btn-pill btn-xs btn-line">Sign out</span><% end %></li>
+          <% else %>
+            <li class="link-btn"><%= link_to new_user_session_path do %><span class="btn btn-theme btn-pill btn-xs btn-line">Login</span><% end %></li>
+            <li class="link-btn"><%= link_to new_user_registration_path do %><span class="btn btn-theme btn-pill btn-xs btn-line">Sign Up</span><% end %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav><!-- end main navbar -->
+
+  <!-- mobile navbar -->
+  <div class="container">
+    <nav class="mobile-nav hidden-md hidden-lg">
+      <a href="#" class="btn-nav-toogle first">
+        <span class="bars"></span>
+        Menu
+      </a>
+      <div class="mobile-nav-block">
+        <h4>Navigation</h4>
+        <a href="#" class="btn-nav-toogle">
+          <span class="barsclose"></span>
+          Close
+        </a>
+
+        <ul class="nav navbar-nav">
+          <li class=""><a href="job_list.html"><strong>Find a Job</strong></a></li>
+          <li class=""><a href="resume_list.html"><strong>Find Resumes</strong></a></li>
+          <li  class=""><a href="job_post_1.html"><strong>Post a Job</strong></a></li>
+          <li><a href="login.html"><strong>Login</strong></a></li>
+          <li><a href="register.html"><strong>Register</strong></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Pages <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="blog.html">Articles &amp; Blog</a></li>
+              <li><a href="terms_privacy.html">Terms &amp; Privacy</a></li>
+              <li><a href="error_404.html">Error 404</a></li>
+              <li><a href="shortcode.html">Short Code</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Features <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="job_list.html">Find a Job</a></li>
+              <li><a href="job_details.html">Job Details</a></li>
+              <li><a href="resume_list.html">Find Resumes</a></li>
+              <li><a href="resume_details.html">Resume Details</a></li>
+              <li><a href="job_post_2.html">Post a Job</a></li>
+              <li><a href="company_page.html">Company Profile</a></li>
+            </ul>
+          </li>
+        </ul>    
+      </div>
+    </nav>
+  </div><!-- mobile navbar -->
+</header>

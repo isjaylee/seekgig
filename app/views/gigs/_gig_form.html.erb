@@ -1,0 +1,66 @@
+<div class="body-content clearfix">
+  <div class="bg-color2 block-section line-bottom">
+    <div class="container">
+      <h1 class="text-center no-margin"><%= form_name %></h1>
+    </div>
+  </div>
+
+  <div class="bg-color1 block-section line-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+          <!-- form post a job -->
+          <%= form_for(gig, url: url) do |f| %>
+            <div class="form-group">
+              <label>Name</label>
+              <%= f.text_field :name, autofocus: true, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <div class="color-white-mute"><small>Describe the responsibilities of this gig.</small></div>
+              <%= f.text_area :description, rows: 10, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <%= f.collection_select :category_id, Category.all, :id, :name, {}, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <div class="row clearfix">
+                <div class="col-lg-6">
+                  <label>Budget</label>
+                  <%= f.text_field :budget, class: "form-control" %>
+                </div>
+                <div class="col-lg-6">
+                  <label>Location</label>
+                  <%= f.text_field :location, class: "form-control" %>
+                </div>
+
+              </div>
+            </div>
+
+            <%= f.fields_for :image do |image_field| %>
+              <%= image_field.label :image %>
+              <%= image_field.file_field :image %>
+            <% end %>
+
+            <% if @gig.images.present? %>
+              <div class="row">
+                <div class="col-lg-6">
+                  <% @gig.images.each do |image| %>
+                    <%= image_tag(image.image.thumb("190x150").url) %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="form-group ">
+              <%= f.submit class: "btn btn-t-primary btn-theme" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% if current_user.nil? %>
+  <%= link_to "Send a message", new_gig_bid_path(@gig.uid), class: "btn btn-theme btn-line dark btn-block-xs" %>
+<% elsif current_user != gig.user %>
+  <a href="#" data-toggle="modal" data-target="#sendMessage" class="btn btn-theme btn-line dark btn-block-xs">Send a message</a>
+<% else %>
+  <%= link_to "Go to your profile", dashboard_path %>
+<% end %>

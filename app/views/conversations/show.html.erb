@@ -1,0 +1,61 @@
+<div class="body-content clearfix">
+  <div class="bg-color1">
+    <div class="container">
+      <div class="col-md-3 col-sm-3">
+        <div class="block-section text-center">
+          <div class="white-space-20"></div>
+          <h1 class="label label-default">Messages</h1>
+          <div class="white-space-20"></div>
+          <ul class="list-unstyled">
+          
+          </ul>
+        </div>
+
+        <div class="white-space-20"></div>
+
+      </div>
+      <div class="col-md-9 col-sm-9">
+        <div class="white-space-20"></div>
+          <div class="block-section box-side-account">
+              <div class="table-inbox-wrap ">
+                <table class="table table-inbox table-hover">
+                  <tbody>
+                    <ul class="list-group">
+                      <% @conversation.messages.each do |message| %>
+                        <li class="list-group-item">
+                          <div class="row">
+                            <div class="col-lg-10"><%= message.user.fullname.titleize %></div>
+                            <div class="col-lg-2"><%= message.created_at.strftime("%b %d %Y") %></div>
+                          </div>
+                          <br>
+                          <div class="row">
+                            <div class="col-lg-12"><%= message.body %></div>
+                          </div>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </tbody>
+                  <div class="page-section padding-top-none">
+                    <div class="panel panel-default paper-shadow" data-z="0.5">
+                      <div class="panel-body">
+                        <h4>Post a reply</h4>
+                        <%= form_for :message, url: user_conversation_messages_path(current_user.uid, @conversation), method: :post do |f| %>
+                          <div class="form-group">
+                            <%= f.text_area :body, rows: 10, class: "form-control" %>
+                          </div>
+                          <div class="form-group">
+                            <%= f.submit "Send Message", class: "btn btn-primary" %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

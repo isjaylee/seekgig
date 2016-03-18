@@ -1,0 +1,120 @@
+<div class="main-header">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-10">
+        <%= form_tag search_all_gigs_path, class: "form-search-list", method: :get do |f| %>
+          <div class="row">
+            <div class="col-lg-4 ">
+              <div class="form-group">
+                <label class="color-white">what <small>(gig keywords, skills, etc.)</small></label>
+                <%= text_field_tag :search, nil, value: params[:search], class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label class="color-white">where <small>(city, state, zipcode, etc.)</small></label>
+                <%= text_field_tag :location, nil, value: params[:location], class: "form-control" %>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label class="color-white">minimum budget</label>
+                <%= select_tag :min, options_for_select(Gig::SEARCH_RATE, params[:min]), class: "form-control", style: "width: 120px;" %>
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <div class="form-group">
+                <label class="hidden-xs">&nbsp;</label>
+                <%= submit_tag "Find gigs", class: "btn btn-block btn-theme btn-success" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="body-content clearfix">
+  <div class="bg-color2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <!-- box listing -->
+          <div class="block-section-sm box-list-area">
+
+            <!-- desc top -->
+            <div class="row hidden-xs">
+              <div class="col-sm-6  ">
+                <p><strong class="color-black"><%= params[:search] %> jobs near <%= params[:location] %></strong></p>
+              </div>
+              <div class="col-sm-6">
+                <p class="text-right">Jobs 1 to <%= @gigs.count %> of <%= @gigs.total_count %></p>
+              </div>
+            </div><!-- end desc top -->
+
+            <!-- item list -->  
+            <div class="box-list">
+              <% @gigs.each do |gig| %>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h3 class="no-margin-top"><%= link_to gig.name, gig_path(gig.uid), class: "gig-name" %></h3>
+                      <h5>
+                        <span class="color-black"><%= link_to gig.user.fullname.titleize, user_path(gig.user.uid) %></span> -
+                        <span class="color-white-mute"> <%= gig.location %></span>
+                      </h5>
+                      <p class="text-truncate ">
+                        <%= gig.description %>
+                      </p>
+                      <div>
+                        <span class="color-white-mute"><%= gig.created_at.strftime("%b %d, %Y") %></span> - 
+                        <span class="btn btn-xs btn-theme btn-warning"><%= gig.category.name %></span>
+                      </div>
+                    </div>
+                    <div class="col-lg-1 hidden-sm hidden-xs">
+                      <h4><span class="label label-success"><%= number_to_currency(gig.budget) %></span></h4>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <!-- pagination -->
+            <%= paginate @gigs %>
+          </div>
+
+        </div>
+        <div class="col-md-3">
+          <div class="block-section-sm side-right">
+            <div class="row">
+              <div class="col-xs-6">
+                <p><strong>Sort by: </strong></p>
+              </div>
+              <div class="col-xs-6">
+                <p class="text-right">
+                  <strong><%= sorting("Date") %></strong> - <a href="#" class="link-black"><strong><%= sorting("Budget") %></strong></a>
+                </p>
+              </div>
+            </div>
+
+            <div class="result-filter">
+              <h5 class="no-margin-top font-bold margin-b-20 "><a href="#s_collapse_1" data-toggle="collapse">Categories <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i> </a></h5>
+              <div class="collapse in" id="s_collapse_1">
+                <div class="list-area">
+                  <ul class="list-unstyled">
+                    <li><%= link_to "All", params.merge(category: "All") %></li>
+                    <li><%= link_to "Lawn Care", params.merge(category: 1) %></li>
+                    <li><%= link_to "Home Improvement", params.merge(category: 2) %></li>
+                    <li><%= link_to "General Labor", params.merge(category: 3) %></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
