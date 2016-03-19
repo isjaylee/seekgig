@@ -22,6 +22,32 @@ describe User do
     let!(:user_two) { create(:user, :with_review, location: "Skokie") }
     let!(:user_three) { create(:user, location: "San Francisco", firstname: "Fred") }
     let!(:user_four) { create(:user, location: "Chicago") }
+    let!(:user_five) { create(:user, searchable: false) }
+    let!(:user_six) { create(:user, firstname: "Bob", lastname: "Green") }
+
+    context "full_name" do
+      context "should return user full name" do
+        subject { user_six.fullname }
+        it { expect(subject).to eq("Bob Green") }
+      end
+
+      context "should not return user incorrect full name" do
+        subject { user_six.fullname }
+        it { expect(subject).not_to eq("Bob Blue") }
+      end
+    end
+
+    context "avg_rating" do
+      context "should return user's average rating" do
+        subject { user.avg_rating }
+        it { expect(subject).to eq(5) }
+      end
+
+      context "should not return user's incorrect average rating" do
+        subject { user.avg_rating }
+        it { expect(subject).not_to eq(2) }
+      end
+    end
 
     context "search_all" do
 
@@ -34,6 +60,11 @@ describe User do
         subject { User.search_all({search: ""}) }
         it { expect(subject.first).to eq nil }
         it { expect(subject.count).to eq 0 }
+      end
+
+      context "finds users who have searchable true" do
+        subject { User.search_all({search: "*", searchable: true}) }
+        it { expect(subject).not_to include(user_five) }
       end
 
       context "finds a user by name in given location with open status" do
@@ -53,7 +84,6 @@ describe User do
         it { expect(subject.count).to eq 2 }
         it { expect(subject.map(&:id)).to eq [user.id, user_two.id] }
       end
-
     end
   end
 end
