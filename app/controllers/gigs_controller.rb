@@ -99,7 +99,7 @@ class GigsController < ApplicationController
       @gig = find_gig
       if @gig.user != current_user
         redirect_to root_path
-        flash[:alert] = "You are not authorized to view this booth."
+        flash[:alert] = "You are not authorized to view this gig."
       end
     end
 

@@ -10,6 +10,6 @@ class BidMailer < ActionMailer::Base
   def select_bid(bidder, gig)
     @bidder = bidder
     @gig = gig
-    mail(to: @bidder.email, subject: "#{gig.user.username} has selected your bid on #{gig.name}!")
+    mail(to: @bidder.email, subject: "#{gig.user.username} has selected your bid for #{gig.name}!")
   end
 end

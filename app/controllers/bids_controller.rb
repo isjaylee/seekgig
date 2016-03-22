@@ -1,6 +1,6 @@
 class BidsController < ApplicationController
-
-  before_action :authenticate_user!, only: %i[new create]
+  before_action :authenticate_user!, only: %i[index new create]
+  before_action :is_gig_owner?, only: %i[index edit update]
 
   def index
     @gig = Gig.find_by(uid: params[:gig_uid])
@@ -36,5 +36,13 @@ class BidsController < ApplicationController
   private
     def bid_params
       params.require(:bid).permit(:amount, :description)
+    end
+
+    def is_gig_owner?
+      @gig = Gig.find_by(uid: params[:gig_uid])
+      if @gig.user != current_user
+        redirect_to root_path
+        flash[:alert] = "You are not authorized to view this gig's bids."
+      end
     end
 end
