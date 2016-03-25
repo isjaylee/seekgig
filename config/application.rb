@@ -25,10 +25,10 @@ module Seekgig
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.before_configuration do
-      env_file = Rails.root.join("config", 'local_env.yml').to_s
+      env_file = File.join(Rails.root, 'config', 'local_env.yml')
 
       if File.exists?(env_file)
-        YAML.load_file(env_file)[Rails.env].each do |key, value|
+        YAML.load_file(env_file).each do |key, value|
           ENV[key.to_s] = value
         end
       end
