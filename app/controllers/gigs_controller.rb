@@ -47,7 +47,7 @@ class GigsController < ApplicationController
   def destroy
     @gig = find_gig
     @gig.archive
-    redirect_to mygigs_path
+    redirect_to dashboard_path
   end
 
   def search_all
