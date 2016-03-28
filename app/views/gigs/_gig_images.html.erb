@@ -1,0 +1,7 @@
+<% if gig.images.present? %>
+  <% gig.images.each do |image| %>
+    <div data-thumb=<%= image.image.thumb("#{thumb}").url %>>
+      <%= image_tag(image.image.thumb("#{thumb}").url) %>
+    </div>
+  <% end %>
+<% end %>

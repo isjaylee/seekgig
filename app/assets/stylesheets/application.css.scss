@@ -15,6 +15,39 @@
  *= require_tree .
  */
 
+@import 'slick';
+@import 'slick-theme';
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+
+.slick-prev::before, .slick-next::before {
+  color: #2980b9;
+  opacity: 100;
+}
+
+.slick-next {
+  right: -20px;
+}
+
+.slick-prev {
+  left: -20px;
+}
+
+.slick-slide {
+  outline: none;
+}
+
+.slick-dots {
+  position: inherit;
+  margin-top: 10px;
+  margin-left: 0;
+  bottom: 0;
+  text-align: left;
+  li {
+    width: 50px;
+    img {
+      width: 50px;
+    }
+  }
+}

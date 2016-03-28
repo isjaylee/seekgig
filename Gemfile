@@ -17,6 +17,7 @@ gem 'redcarpet', '~> 3.3'
 gem 'kaminari', '~> 0.16.3'
 gem 'dragonfly', '~> 1.0'
 gem 'dropbox-sdk', '~> 1.6'
+gem 'jquery-slick-rails', '~> 1.6'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
 

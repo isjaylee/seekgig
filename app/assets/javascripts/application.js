@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.slick
 //= require bootstrap-sprockets
 //= require toastr_rails
 //= require_tree .
@@ -37,5 +38,30 @@ $(document).ready(function() {
   // }, 2000);
   
   $('input[name="searchable"]').bootstrapSwitch();
+
+  $('.items-show').slick({
+    arrows: false,
+    dots: true,
+    speed: 10,
+    customPaging : function(slider, i) {
+        var thumb = $(slider.$slides[i]).data('thumb');
+        return '<a><img src="'+thumb+'"></a>';
+    },
+
+    responsive: [{ 
+        breakpoint: 500,
+        settings: {
+            dots: false,
+            arrows: false,
+            infinite: false,
+            slidesToShow: 2,
+            slidesToScroll: 2
+        } 
+    }]
+  });
+
+  $('.slick-dots li').hover(function(){
+    $(this).click();
+  })
 
 });

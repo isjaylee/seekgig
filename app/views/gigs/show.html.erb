@@ -32,11 +32,9 @@
               </ul>
             </div>
             <p><%= markdown(@gig.description) %></p>
-            <% if @gig.images.present? %>
-              <% @gig.images.each do |image| %>
-                <%= link_to image_tag(image.image.thumb("190x150").url), root_path %>
-              <% end %>
-            <% end %>
+            <div class="items-show">
+              <%= render partial: "gigs/gig_images", locals: { gig: @gig, thumb: "300x300"} %>
+            </div>
           </div>
 
         </div>
