@@ -49,6 +49,7 @@ class Gig < ActiveRecord::Base
   end
 
   def budget=(budget_str)
-    budget_str.delete("$")
+    value = budget_str.delete("$")
+    write_attribute(:budget, value)
   end
 end
