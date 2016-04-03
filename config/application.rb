@@ -28,7 +28,7 @@ module Seekgig
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
 
       if File.exists?(env_file)
-        YAML.load_file(env_file).each do |key, value|
+        YAML.load(ERB.new(File.read(env_file)).result).each do |key, value|
           ENV[key.to_s] = value
         end
       end
