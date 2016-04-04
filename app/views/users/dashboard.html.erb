@@ -126,7 +126,7 @@
                       <td><%= bid.gig.status %></td>
                       <td>
                         <% if !bid.gig.finished? %>
-                          <%= link_to "<i class='fa fa-pencil'></i> Edit".html_safe, edit_gig_bid_path(bid.gig.uid, bid) %>
+                          <%#= link_to "<i class='fa fa-pencil'></i> Edit".html_safe, edit_gig_bid_path(bid.gig.uid, bid) %>
                           <%= link_to "<i class='fa fa-remove'></i> Undo Bid".html_safe, gig_bid_path(bid.gig.uid, bid), method: :delete, data: { confirm: "Are you sure?" } %>
                         <% end %>
                       </td>
