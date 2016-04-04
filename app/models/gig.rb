@@ -45,7 +45,7 @@ class Gig < ActiveRecord::Base
   end
 
   def max_images
-    errors.add(:base, "Maximum images per gig is 5") if self.images.count > 2
+    errors.add(:base, "Maximum images per gig is 5") if self.images.count > 4
   end
 
   def budget=(budget_str)
