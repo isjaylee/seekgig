@@ -36,7 +36,7 @@ class GigsController < ApplicationController
   def update
     @gig = find_gig
     if @gig.update(gig_params)
-      @gig.images.create(image: params[:gig][:image][:image]) if params[:gig][:image].present?
+      params[:gig][:image][:image].each { |img|  @gig.images.create(image: img) } if params[:gig][:image].present?
       redirect_to gig_path(@gig.uid)
     else
       flash[:alert] = @gig.errors.full_messages.to_sentence

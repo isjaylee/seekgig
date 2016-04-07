@@ -28,8 +28,8 @@ Rails.application.routes.draw do
   post '/gigs/:gig_uid/bids/:bid_id/select_bid'   => 'gigs#select_bid',   as: :select_bid
   post '/gigs/:gig_uid/bids/:bid_id/deselect_bid' => 'gigs#deselect_bid', as: :deselect_bid
   post '/users/update_searchable' => 'users#update_searchable', as: :update_searchable
-
   post '/user/:user_uid/messages' => 'messages#new_message', as: :user_messages
+  delete '/image/:imageable_id' => 'images#destroy', as: :image_destroy
 
   root 'gigs#index'
 end

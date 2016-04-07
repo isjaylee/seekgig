@@ -38,17 +38,17 @@
 
               </div>
             </div>
-
+            Upload images (up to 5 per gig)
             <%= f.fields_for :image do |image_field| %>
-              <%= image_field.label :image %>
-              <%= image_field.file_field :image %>
+              <%= image_field.file_field :image, multiple: true %>
             <% end %>
 
             <% if @gig.images.present? %>
               <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12 form-image">
                   <% @gig.images.each do |image| %>
                     <%= image_tag(image.image.thumb("130x130").url) %>
+                    <%= link_to "Delete", image_destroy_path(image.imageable_id, gig: @gig.uid), class: "delete btn btn-danger btn-xs", method: :delete %>
                   <% end %>
                 </div>
               </div>
