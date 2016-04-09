@@ -29,12 +29,12 @@ Category.create(name: "Lawn Care")
 Category.create(name: "Home Improvement")
 Category.create(name: "General Labor")
 
-gig = Gig.create(name: "Test", description: Faker::Lorem.paragraph, budget: rand(1..999), category_id: 1, location: "123 Main Street, Saint Paul, MN 55101", user_id: bob.id)
+gig = Gig.create(name: "Test", description: Faker::Lorem.paragraph, budget: rand(1..999).to_s, category_id: 1, location: "123 Main Street, Saint Paul, MN 55101", user_id: bob.id)
 
 30.times do
   sleep 0.25
   Gig.create(name: Faker::Lorem.sentence, description: Faker::Lorem.paragraph(2),
-             budget: rand(1..999), category_id: rand(1..3), location: LOCATIONS.sample, user_id: rand(1..2))
+             budget: rand(1..999).to_s, category_id: rand(1..3), location: LOCATIONS.sample, user_id: rand(1..2))
 end
 
 Review.create(comment: Faker::Lorem.sentence(2), rating: 5, reviewer: bob.id, user_id: joe.id, gig_id: gig.id)
